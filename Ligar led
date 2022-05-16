@@ -1,0 +1,16 @@
+import serial
+import time
+
+sData = serial.Serial('COM4', 9600)
+sData.timeout = 1
+
+while True:
+    inData = input("input(on/off): ").strip();
+    if inData == 'done':
+        print('Finished program')
+        break
+    sData.write(inData.encode())
+    time.sleep(0.5)
+    print(sData.readline().decode('ascii'))
+
+sData.close()
