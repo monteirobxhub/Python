@@ -1,0 +1,36 @@
+#INTERFACE GRAFICA
+
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import time
+
+fig = plt.figure() #Definição da figura
+a = fig.add_subplot(111) #Criar uma tabela de 1 linha e 1 coluna e posiciona o elemento na celila 1
+
+start = time.time() #Define o tempo inicial do processo
+
+#Valores de X e Y a serem plotados, são as listas vazias
+xs = []
+ys = []
+
+# Plota e faz a atualização do grafico, faz a leitura e armazena
+def animate(i):
+    dados = open("C:/Users/HP/Documents/projeto/dadoslive.txt","r").read() #Abre e lê os dados do TXT
+    linhas = dados.split("\n")  #Define o que é uma linha, nesse caso é definica a cada "enter"
+    for y in linhas:            #Vincula os dados ao gráfico
+        if len (y>0):
+            ys.append(float(y))
+            if len (xs)==0:
+                xs.append(time.time()-start)    #SE xs=0, adiciona uma unidade de tempo quando ys>0
+            if len (ys)>len(xs):
+                x=time.time()-start
+                xs.append(x)
+    a.clear()
+    a.plot(xs,ys, "-o")     #Plota os pontos e faz um segmento que liga os pontos
+    plt.xlabel("Tempo(s)")
+    plt.ylabel("Massa(g)")
+    plt.tittle("Massa Aparente em função do tempo")
+    ys.clear()
+
+ani=animation.FuncAnimation(fig, animate, interval=1)
+plt.show()
